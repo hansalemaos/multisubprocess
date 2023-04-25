@@ -107,16 +107,16 @@ def multi_subprocess(
 
     t = threading.Thread(target=kill_em_all)
     t.start()
-    querylist = [tuple(x) if isinstance(x, list) else x for x in allcommands]
-    coun = 0
+    querylist = [(i,)+tuple(x) if isinstance(x, list) else (i,x) for i,x in enumerate(allcommands)]
+    #coun = -1
     while len(alldone) != len(querylist):
         for q in set(querylist) - set(allproc.keys()):
-            q2 = q
-            try:
-                q = (coun,) + q2
-            except Exception as ad:
-                q = (coun,) + (q2,)
-            coun = coun + 1
+            q2 = q[1:]
+            # try:
+            #     q = (coun,) + q2
+            # except Exception as ad:
+            #     q = (coun,) + (q2,)
+            #coun = coun + 1
             allprockeys = list(allproc.keys())
             allalive.clear()
             for k in allprockeys:
