@@ -140,6 +140,12 @@ def multi_subprocess(
                             allproc[aliveprocess]["proc"].stdout.readline, b""
                         ):
                             allproc[aliveprocess]["stdout"].write(data)
+
+                        # try:
+                        #     allproc[aliveprocess]["stdout"].close()
+                        # except Exception as i:
+                        #     print(i)
+
                     except Exception as fe:
                         if debug:
                             print(fe)
@@ -181,7 +187,14 @@ def multi_subprocess(
             allproc[aliveprocess]["stdoutready"] = allproc[aliveprocess][
                 "stdout"
             ].getvalue()
-            #allproc[aliveprocess]["stdoutready"] = b''.join(allproc[aliveprocess]["stdoutready"])
+            try:
+                allproc[aliveprocess]["stdout"].close()
+            except Exception as i:
+                if debug:
+                    print(i)
+            # allproc[aliveprocess]["stdoutready"] = b"".join(
+            #     allproc[aliveprocess]["stdoutready"]
+            # )
         except Exception as sd:
             if debug:
                 print(sd)
@@ -194,7 +207,15 @@ def multi_subprocess(
             allproc[aliveprocess]["stderrready"] = allproc[aliveprocess][
                 "stderr"
             ].getvalue()
-            #allproc[aliveprocess]["stderrready"] = b''.join(allproc[aliveprocess]["stderrready"])
+            try:
+                allproc[aliveprocess]["stderr"].close()
+            except Exception as i:
+                if debug:
+                    print(i)
+
+            # allproc[aliveprocess]["stderrready"] = b"".join(
+            #     allproc[aliveprocess]["stderrready"]
+            # )
 
         except Exception as sd:
             if debug:
@@ -217,5 +238,3 @@ def multi_subprocess(
             if debug:
                 print(ads)
     return allproc
-
-
